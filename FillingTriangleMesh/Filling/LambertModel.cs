@@ -20,14 +20,14 @@ namespace FillingTriangleMesh
         // Light color
         public Color lightColor { get; set; } = Color.White;
 
-        public (double x, double y, double z) lightPosition = (1250, 200, 300);
+        public (double x, double y, double z) lightPosition = (1000, 50, 800);
 
         // V vector
 
         public readonly Vector3 V = new Vector3(0, 0, 1);
 
         // Object color
-        public Color objectColor { get; set; } = Color.White;
+        public Color objectColor { get; set; } = Color.LightGreen;
 
         // Create Lambert model
         public LambertModel(double kd, double ks, double m)

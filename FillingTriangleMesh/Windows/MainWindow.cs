@@ -28,7 +28,7 @@ namespace FillingTriangleMesh
         private int staticObjectSizeUnit = 5;
         private (int x, int y, int z) planeShift = (-600, 150, 0);
         private (int x, int y, int z) sphereShift = (320, -300, 300);
-        private (int x, int y, int z) cloud1Shift = (100, -250, -100);
+        private (int x, int y, int z) cloud1Shift = (-300, -300, -200);
         private (int x, int y, int z) cloud2Shift = (-500, 0, -100);
         private (int x, int y, int z) cloud3Shift = (-200, 0, 100);
 
@@ -115,15 +115,20 @@ namespace FillingTriangleMesh
         private void MainWindow_Resize(object sender, EventArgs e)
         {
             // Create triangle mesh
+            loadMeshes();
+
+            filling.transformStaticObjects();
+            // redrawing
+            redraw();
+        }
+
+        private void loadMeshes()
+        {
             filling.planeTriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultPlanePath), planeSizeUnit, planeShift.x, planeShift.y);
             filling.sphereTriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultSpherePath), staticObjectSizeUnit, sphereShift.x, sphereShift.y, sphereShift.z);
             filling.cloud1TriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultCloud1Path), staticObjectSizeUnit, cloud1Shift.x, cloud1Shift.y, cloud1Shift.z);
             filling.cloud2TriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultCloud1Path), staticObjectSizeUnit, cloud2Shift.x, cloud2Shift.y, cloud2Shift.z);
             filling.cloud3TriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultCloud1Path), staticObjectSizeUnit, cloud3Shift.x, cloud3Shift.y, cloud3Shift.z);
-
-            filling.transformStaticObjects();
-            // redrawing
-            redraw();
         }
 
         private void kdTrackBar_MouseUp(object sender, MouseEventArgs e)
@@ -166,7 +171,10 @@ namespace FillingTriangleMesh
             {
                 timer.Stop();
                 filling.planeAngleY = 0;
-                filling.planeTriangleMesh = new TriangleMesh(pictureBox.Width, pictureBox.Height, loadObj(defaultPlanePath), planeSizeUnit, planeShift.x, planeShift.y, planeShift.z);
+                loadMeshes();
+                filling.animation = new Animation();
+                if (vibrationCheckBox.Checked)
+                    filling.animation.vibrations = true;
                 MessageBox.Show("Animation ended!");
             }
         }
@@ -219,6 +227,14 @@ namespace FillingTriangleMesh
         {
             filling.switchCameraType();
             redraw();
+        }
+
+        private void vibrationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (vibrationCheckBox.Checked)
+                filling.turnOnVibrations();
+            else
+                filling.turnOffVibrations();
         }
     }
 }

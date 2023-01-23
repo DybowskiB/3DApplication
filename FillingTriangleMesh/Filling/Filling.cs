@@ -438,7 +438,7 @@ namespace FillingTriangleMesh
             double b1 = Math.Max((d00 * d21 - d01 * d20) * invdenom, 0);
             double b2 = Math.Max(1.0f - (b0 + b1), 0);
 
-            return (b2, b0, b1);
+            return (Math.Min(b2, 1), Math.Min(b0, 1), Math.Min(b1, 1));
         }
 
         // Transformations 
@@ -562,7 +562,7 @@ namespace FillingTriangleMesh
             }
             else if(cameraIndex == 2)
             {
-                savedCameraTarget = cameraTarget;
+                savedCameraTarget = new Vector3(0, 200, 0);
                 moveCameraTarget();
             }
             else
@@ -594,6 +594,17 @@ namespace FillingTriangleMesh
             if (cameraIndex != 2) return;
             CameraTarget = animation.moveCameraTarget(savedCameraTarget);
             transformStaticObjects();
+        }
+
+        // Vibrations
+        public void turnOnVibrations()
+        {
+            animation.vibrations = true;
+        }
+
+        public void turnOffVibrations()
+        {
+            animation.vibrations = false;
         }
     }
 }

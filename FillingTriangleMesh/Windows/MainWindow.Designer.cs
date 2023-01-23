@@ -72,6 +72,8 @@ namespace FillingTriangleMesh
             this.FOVLabel = new System.Windows.Forms.Label();
             this.FOVValueLabel = new System.Windows.Forms.Label();
             this.FOVTrackBar = new System.Windows.Forms.TrackBar();
+            this.vibrationGroupBox = new System.Windows.Forms.GroupBox();
+            this.vibrationCheckBox = new System.Windows.Forms.CheckBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.lightColorDialog = new System.Windows.Forms.ColorDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
@@ -107,6 +109,7 @@ namespace FillingTriangleMesh
             this.FOVGroupBox.SuspendLayout();
             this.FOVTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FOVTrackBar)).BeginInit();
+            this.vibrationGroupBox.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -122,15 +125,17 @@ namespace FillingTriangleMesh
             this.tableLayoutPanel.Controls.Add(this.lightGroupBox, 0, 2);
             this.tableLayoutPanel.Controls.Add(this.colorGroupBox, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.cameraGroupBox, 0, 3);
+            this.tableLayoutPanel.Controls.Add(this.vibrationGroupBox, 0, 4);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 6;
+            this.tableLayoutPanel.RowCount = 7;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(1835, 853);
             this.tableLayoutPanel.TabIndex = 0;
@@ -142,7 +147,7 @@ namespace FillingTriangleMesh
             this.pictureBox.InitialImage = null;
             this.pictureBox.Location = new System.Drawing.Point(203, 3);
             this.pictureBox.Name = "pictureBox";
-            this.tableLayoutPanel.SetRowSpan(this.pictureBox, 5);
+            this.tableLayoutPanel.SetRowSpan(this.pictureBox, 6);
             this.pictureBox.Size = new System.Drawing.Size(1629, 801);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 0;
@@ -479,8 +484,8 @@ namespace FillingTriangleMesh
             this.animationTableLayoutPanel.Name = "animationTableLayoutPanel";
             this.animationTableLayoutPanel.RowCount = 1;
             this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.animationTableLayoutPanel.Size = new System.Drawing.Size(176, 24);
             this.animationTableLayoutPanel.TabIndex = 0;
             // 
@@ -660,6 +665,29 @@ namespace FillingTriangleMesh
             this.FOVTrackBar.Value = 75;
             this.FOVTrackBar.Scroll += new System.EventHandler(this.FOVTrackBar_Scroll);
             // 
+            // vibrationGroupBox
+            // 
+            this.vibrationGroupBox.Controls.Add(this.vibrationCheckBox);
+            this.vibrationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vibrationGroupBox.Location = new System.Drawing.Point(3, 683);
+            this.vibrationGroupBox.Name = "vibrationGroupBox";
+            this.vibrationGroupBox.Size = new System.Drawing.Size(194, 36);
+            this.vibrationGroupBox.TabIndex = 5;
+            this.vibrationGroupBox.TabStop = false;
+            this.vibrationGroupBox.Text = "Vibrations";
+            // 
+            // vibrationCheckBox
+            // 
+            this.vibrationCheckBox.AutoSize = true;
+            this.vibrationCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vibrationCheckBox.Location = new System.Drawing.Point(3, 23);
+            this.vibrationCheckBox.Name = "vibrationCheckBox";
+            this.vibrationCheckBox.Size = new System.Drawing.Size(188, 10);
+            this.vibrationCheckBox.TabIndex = 0;
+            this.vibrationCheckBox.Text = "On/Off";
+            this.vibrationCheckBox.UseVisualStyleBackColor = true;
+            this.vibrationCheckBox.CheckedChanged += new System.EventHandler(this.vibrationCheckBox_CheckedChanged);
+            // 
             // colorDialog
             // 
             this.colorDialog.Color = System.Drawing.Color.White;
@@ -804,6 +832,8 @@ namespace FillingTriangleMesh
             this.FOVTableLayout.ResumeLayout(false);
             this.FOVTableLayout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FOVTrackBar)).EndInit();
+            this.vibrationGroupBox.ResumeLayout(false);
+            this.vibrationGroupBox.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -865,6 +895,8 @@ namespace FillingTriangleMesh
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.GroupBox vibrationGroupBox;
+        private System.Windows.Forms.CheckBox vibrationCheckBox;
     }
 }
 
