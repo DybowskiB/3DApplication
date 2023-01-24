@@ -29,6 +29,8 @@ namespace FillingTriangleMesh
         private const int maxZbufferWidth = 2000;
         private const int maxZbufferHeight = 1500;
 
+        public double night = 1;
+
         public Filling(LambertModel lambertModel, TriangleMesh planeTriangleMesh, TriangleMesh sphereTriangleMesh,
             TriangleMesh cloud1TriangleMesh, TriangleMesh cloud2TriangleMesh, TriangleMesh cloud3TriangleMesh, 
             PictureBox pictureBox)
@@ -83,7 +85,21 @@ namespace FillingTriangleMesh
             bitmap = new Bitmap(pictureBox.Width, pictureBox.Height);
             using (Graphics gfx = Graphics.FromImage(bitmap))
             {
-                using (SolidBrush brush = new SolidBrush(Color.SkyBlue))
+               if (night < 0.3)
+                {
+                    using (SolidBrush brush = new SolidBrush(Color.DarkBlue))
+                    {
+                        gfx.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
+                    }
+                }
+                else if(night < 0.6)
+                {
+                    using (SolidBrush brush = new SolidBrush(Color.DeepSkyBlue))
+                    {
+                        gfx.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
+                    }
+                }
+                else using (SolidBrush brush = new SolidBrush(Color.SkyBlue))
                 {
                     gfx.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
                 }
@@ -358,9 +374,9 @@ namespace FillingTriangleMesh
             var ISpotlight1 = getSpotlightIntensity(lambertModel.spotlight1Position, lambertModel.spotlight1D, point, N, color, r, g, b);
             var ISpotlight2 = getSpotlightIntensity(lambertModel.spotlight2Position, lambertModel.spotlight2D, point, N, color, r, g, b);
 
-            double R = lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR + ISpotlight1.R + ISpotlight2.R;
-            double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR + ISpotlight1.G + ISpotlight2.G;
-            double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR + ISpotlight1.B + ISpotlight2.B;
+            double R = night * (lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR) + ISpotlight1.R + ISpotlight2.R;
+            double G = night * (lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR) + ISpotlight1.G + ISpotlight2.G;
+            double B = night * (lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR) + ISpotlight1.B + ISpotlight2.B;
 
             if(fog)
             {

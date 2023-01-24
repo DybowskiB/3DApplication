@@ -784,6 +784,7 @@ namespace FillingTriangleMesh
             this.nightCheckBox.TabIndex = 0;
             this.nightCheckBox.Text = "On/Off";
             this.nightCheckBox.UseVisualStyleBackColor = true;
+            this.nightCheckBox.CheckedChanged += new System.EventHandler(this.nightCheckBox_CheckedChanged);
             // 
             // colorDialog
             // 

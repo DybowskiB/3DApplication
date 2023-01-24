@@ -165,12 +165,16 @@ namespace FillingTriangleMesh
             {
                 filling.animation.moveObject(filling.planeTriangleMesh.triangles);
                 filling.moveCameraTarget();
+                if (nightCheckBox.Checked && filling.night > 0)
+                    filling.night -= 0.01;
+                if (filling.night < 0) filling.night = 0;
                 redraw();
             }
             else
             {
                 timer.Stop();
                 filling.planeAngleY = 0;
+                filling.night = 1;
                 loadMeshes();
                 filling.animation = new Animation();
                 if (vibrationCheckBox.Checked)
@@ -265,6 +269,12 @@ namespace FillingTriangleMesh
             else
                 filling.turnOffFog();
             redraw();
+        }
+
+        private void nightCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (nightCheckBox.Checked == false)
+                filling.night = 1;
         }
     }
 }
