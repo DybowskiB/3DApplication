@@ -350,15 +350,28 @@ namespace FillingTriangleMesh
             double cosNL = Math.Max(Vector3.Dot(N, L), 0);
             double cosmVR = Math.Pow(Math.Max(Vector3.Dot(lambertModel.V, RVector), 0), lambertModel.m);
 
-            double R = lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR;
-            double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR;
-            double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR;
+            // Spotlight
+            double ISpotlight1 = getSpotlightIntensity(lambertModel.spotlight1Position, lambertModel.spotlight1D, point);
+            double ISpotlight2 = getSpotlightIntensity(lambertModel.spotlight2Position, lambertModel.spotlight2D, point);
+
+            double R = lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR + r * ISpotlight1 + r * ISpotlight2;
+            double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR + g * ISpotlight1 + g * ISpotlight2;
+            double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR + b * ISpotlight1 + b * ISpotlight2;
 
             byte Rb = (byte)Math.Min(R * 255, 255);
             byte Gb = (byte)Math.Min(G * 255, 255);
             byte Bb = (byte)Math.Min(B * 255, 255);
 
             return Color.FromArgb(Rb, Gb, Bb);
+        }
+
+        public double getSpotlightIntensity((double x, double y, double z) spotlightPosition, Vector3 D, Point point)
+        {
+            Vector3 LStaticSpotlight = Vector3.Normalize(new Vector3(
+                (float)spotlightPosition.x - point.X,
+                (float)spotlightPosition.y - point.Y,
+                (float)spotlightPosition.z));
+            return Math.Pow(Math.Max(Vector3.Dot(-D, LStaticSpotlight), 0), lambertModel.m);
         }
 
         /// <summary>
@@ -550,7 +563,11 @@ namespace FillingTriangleMesh
                 resultTriangles.Add(new Triangle(P0, P1, P2));
                 resultNormals.Add((N0, N1, N2));
             }
+
+            lambertModel.spotlight1Position = (resultTriangles[0].P0.X, resultTriangles[0].P0.Y, resultTriangles[0].P0.Z);
+           // lambertModel.spotlight2Position = (resultTriangles[0].P0.X, resultTriangles[0].P0.Y, resultTriangles[0].P0.Z);
         }
+
 
         private int cameraIndex = 0;
         public void switchCameraType()
