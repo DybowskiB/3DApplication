@@ -236,5 +236,26 @@ namespace FillingTriangleMesh
             else
                 filling.turnOffVibrations();
         }
+
+        private void spotlightDirectionButton_Click(object sender, EventArgs e)
+        {
+            filling.lambertModel.directionIndex = (++filling.lambertModel.directionIndex) % 4;
+            switch(filling.lambertModel.directionIndex)
+            {
+                case 0:
+                    filling.lambertModel.spotlight1D = new Vector3(0, 1, 0);
+                    break;
+                case 1:
+                    filling.lambertModel.spotlight1D = new Vector3(0, -1, 0);
+                    break;
+                case 2:
+                    filling.lambertModel.spotlight1D = new Vector3(1, 0, 0);
+                    break;
+                case 3:
+                    filling.lambertModel.spotlight1D = new Vector3(-1, 0, 0);
+                    break;
+            }
+            redraw();
+        }
     }
 }

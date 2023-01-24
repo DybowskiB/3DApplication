@@ -74,6 +74,8 @@ namespace FillingTriangleMesh
             this.FOVTrackBar = new System.Windows.Forms.TrackBar();
             this.vibrationGroupBox = new System.Windows.Forms.GroupBox();
             this.vibrationCheckBox = new System.Windows.Forms.CheckBox();
+            this.SpotlightGroupBox = new System.Windows.Forms.GroupBox();
+            this.spotlightDirectionButton = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.lightColorDialog = new System.Windows.Forms.ColorDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
@@ -110,6 +112,7 @@ namespace FillingTriangleMesh
             this.FOVTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FOVTrackBar)).BeginInit();
             this.vibrationGroupBox.SuspendLayout();
+            this.SpotlightGroupBox.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -126,16 +129,18 @@ namespace FillingTriangleMesh
             this.tableLayoutPanel.Controls.Add(this.colorGroupBox, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.cameraGroupBox, 0, 3);
             this.tableLayoutPanel.Controls.Add(this.vibrationGroupBox, 0, 4);
+            this.tableLayoutPanel.Controls.Add(this.SpotlightGroupBox, 0, 5);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 7;
+            this.tableLayoutPanel.RowCount = 8;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(1835, 853);
             this.tableLayoutPanel.TabIndex = 0;
@@ -147,7 +152,7 @@ namespace FillingTriangleMesh
             this.pictureBox.InitialImage = null;
             this.pictureBox.Location = new System.Drawing.Point(203, 3);
             this.pictureBox.Name = "pictureBox";
-            this.tableLayoutPanel.SetRowSpan(this.pictureBox, 6);
+            this.tableLayoutPanel.SetRowSpan(this.pictureBox, 7);
             this.pictureBox.Size = new System.Drawing.Size(1629, 801);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 0;
@@ -438,7 +443,7 @@ namespace FillingTriangleMesh
             this.lightGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lightGroupBox.Location = new System.Drawing.Point(3, 386);
             this.lightGroupBox.Name = "lightGroupBox";
-            this.lightGroupBox.Size = new System.Drawing.Size(194, 121);
+            this.lightGroupBox.Size = new System.Drawing.Size(194, 113);
             this.lightGroupBox.TabIndex = 3;
             this.lightGroupBox.TabStop = false;
             this.lightGroupBox.Text = "Light";
@@ -454,9 +459,9 @@ namespace FillingTriangleMesh
             this.lightTableLayoutPanel.Location = new System.Drawing.Point(3, 26);
             this.lightTableLayoutPanel.Name = "lightTableLayoutPanel";
             this.lightTableLayoutPanel.RowCount = 2;
-            this.lightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.lightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.lightTableLayoutPanel.Size = new System.Drawing.Size(188, 92);
+            this.lightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.lightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.lightTableLayoutPanel.Size = new System.Drawing.Size(188, 84);
             this.lightTableLayoutPanel.TabIndex = 0;
             // 
             // animationGroupBox
@@ -465,9 +470,9 @@ namespace FillingTriangleMesh
             this.animationGroupBox.Controls.Add(this.animationTableLayoutPanel);
             this.animationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.animationGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.animationGroupBox.Location = new System.Drawing.Point(3, 39);
+            this.animationGroupBox.Location = new System.Drawing.Point(3, 32);
             this.animationGroupBox.Name = "animationGroupBox";
-            this.animationGroupBox.Size = new System.Drawing.Size(182, 50);
+            this.animationGroupBox.Size = new System.Drawing.Size(182, 49);
             this.animationGroupBox.TabIndex = 0;
             this.animationGroupBox.TabStop = false;
             this.animationGroupBox.Text = "Animation";
@@ -484,9 +489,9 @@ namespace FillingTriangleMesh
             this.animationTableLayoutPanel.Name = "animationTableLayoutPanel";
             this.animationTableLayoutPanel.RowCount = 1;
             this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.animationTableLayoutPanel.Size = new System.Drawing.Size(176, 24);
+            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.animationTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.animationTableLayoutPanel.Size = new System.Drawing.Size(176, 23);
             this.animationTableLayoutPanel.TabIndex = 0;
             // 
             // startAnimationButton
@@ -496,7 +501,7 @@ namespace FillingTriangleMesh
             this.startAnimationButton.ForeColor = System.Drawing.Color.PaleGreen;
             this.startAnimationButton.Location = new System.Drawing.Point(3, 3);
             this.startAnimationButton.Name = "startAnimationButton";
-            this.startAnimationButton.Size = new System.Drawing.Size(82, 18);
+            this.startAnimationButton.Size = new System.Drawing.Size(82, 17);
             this.startAnimationButton.TabIndex = 3;
             this.startAnimationButton.UseVisualStyleBackColor = true;
             this.startAnimationButton.Click += new System.EventHandler(this.startAnimationButton_Click);
@@ -508,7 +513,7 @@ namespace FillingTriangleMesh
             this.stopAnimationButton.ForeColor = System.Drawing.Color.Red;
             this.stopAnimationButton.Location = new System.Drawing.Point(91, 3);
             this.stopAnimationButton.Name = "stopAnimationButton";
-            this.stopAnimationButton.Size = new System.Drawing.Size(82, 18);
+            this.stopAnimationButton.Size = new System.Drawing.Size(82, 17);
             this.stopAnimationButton.TabIndex = 4;
             this.stopAnimationButton.UseVisualStyleBackColor = true;
             this.stopAnimationButton.Click += new System.EventHandler(this.stopAnimationButton_Click);
@@ -520,7 +525,7 @@ namespace FillingTriangleMesh
             this.changeLightColorButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.changeLightColorButton.Location = new System.Drawing.Point(3, 3);
             this.changeLightColorButton.Name = "changeLightColorButton";
-            this.changeLightColorButton.Size = new System.Drawing.Size(182, 30);
+            this.changeLightColorButton.Size = new System.Drawing.Size(182, 23);
             this.changeLightColorButton.TabIndex = 2;
             this.changeLightColorButton.Text = "Change color";
             this.changeLightColorButton.UseVisualStyleBackColor = true;
@@ -554,7 +559,7 @@ namespace FillingTriangleMesh
             this.cameraGroupBox.Controls.Add(this.cameraTableLayoutPanel);
             this.cameraGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cameraGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cameraGroupBox.Location = new System.Drawing.Point(3, 513);
+            this.cameraGroupBox.Location = new System.Drawing.Point(3, 505);
             this.cameraGroupBox.Name = "cameraGroupBox";
             this.cameraGroupBox.Size = new System.Drawing.Size(194, 164);
             this.cameraGroupBox.TabIndex = 3;
@@ -658,7 +663,7 @@ namespace FillingTriangleMesh
             this.FOVTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FOVTrackBar.Location = new System.Drawing.Point(3, 27);
             this.FOVTrackBar.Maximum = 120;
-            this.FOVTrackBar.Minimum = 30;
+            this.FOVTrackBar.Minimum = 75;
             this.FOVTrackBar.Name = "FOVTrackBar";
             this.FOVTrackBar.Size = new System.Drawing.Size(170, 19);
             this.FOVTrackBar.TabIndex = 2;
@@ -669,7 +674,7 @@ namespace FillingTriangleMesh
             // 
             this.vibrationGroupBox.Controls.Add(this.vibrationCheckBox);
             this.vibrationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vibrationGroupBox.Location = new System.Drawing.Point(3, 683);
+            this.vibrationGroupBox.Location = new System.Drawing.Point(3, 675);
             this.vibrationGroupBox.Name = "vibrationGroupBox";
             this.vibrationGroupBox.Size = new System.Drawing.Size(194, 36);
             this.vibrationGroupBox.TabIndex = 5;
@@ -687,6 +692,28 @@ namespace FillingTriangleMesh
             this.vibrationCheckBox.Text = "On/Off";
             this.vibrationCheckBox.UseVisualStyleBackColor = true;
             this.vibrationCheckBox.CheckedChanged += new System.EventHandler(this.vibrationCheckBox_CheckedChanged);
+            // 
+            // SpotlightGroupBox
+            // 
+            this.SpotlightGroupBox.Controls.Add(this.spotlightDirectionButton);
+            this.SpotlightGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SpotlightGroupBox.Location = new System.Drawing.Point(3, 717);
+            this.SpotlightGroupBox.Name = "SpotlightGroupBox";
+            this.SpotlightGroupBox.Size = new System.Drawing.Size(194, 45);
+            this.SpotlightGroupBox.TabIndex = 6;
+            this.SpotlightGroupBox.TabStop = false;
+            this.SpotlightGroupBox.Text = "Spotlight ";
+            // 
+            // spotlightDirectionButton
+            // 
+            this.spotlightDirectionButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spotlightDirectionButton.Location = new System.Drawing.Point(3, 23);
+            this.spotlightDirectionButton.Name = "spotlightDirectionButton";
+            this.spotlightDirectionButton.Size = new System.Drawing.Size(188, 19);
+            this.spotlightDirectionButton.TabIndex = 0;
+            this.spotlightDirectionButton.Text = "Change direction";
+            this.spotlightDirectionButton.UseVisualStyleBackColor = true;
+            this.spotlightDirectionButton.Click += new System.EventHandler(this.spotlightDirectionButton_Click);
             // 
             // colorDialog
             // 
@@ -834,6 +861,7 @@ namespace FillingTriangleMesh
             ((System.ComponentModel.ISupportInitialize)(this.FOVTrackBar)).EndInit();
             this.vibrationGroupBox.ResumeLayout(false);
             this.vibrationGroupBox.PerformLayout();
+            this.SpotlightGroupBox.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -897,6 +925,8 @@ namespace FillingTriangleMesh
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox vibrationGroupBox;
         private System.Windows.Forms.CheckBox vibrationCheckBox;
+        private System.Windows.Forms.GroupBox SpotlightGroupBox;
+        private System.Windows.Forms.Button spotlightDirectionButton;
     }
 }
 

@@ -79,9 +79,6 @@ namespace FillingTriangleMesh
             resultTriangles.AddRange(staticObjectsTriangles);
             resultNormals.AddRange(staticObjectsNormals);
 
-            if (cameraIndex == 1)
-                moveCameraPosition();
-
             Bitmap bitmap;
             bitmap = new Bitmap(pictureBox.Width, pictureBox.Height);
             using (Graphics gfx = Graphics.FromImage(bitmap))
@@ -273,7 +270,7 @@ namespace FillingTriangleMesh
             {
                 if (i > 0 && i < bitmap.Width && y > 0 && y < bitmap.Height)
                 {
-                    var point = new Point(i, y);
+                    var point = new Vertex(i, y, 0);
                     (double b0, double b1, double b2) barycentric = getBarycentricCoordinates(point, currentTriangle.P0,
                         currentTriangle.P1, currentTriangle.P2);
                     var z = (float)(barycentric.b0 * currentTriangle.P0.Z + barycentric.b1 * currentTriangle.P1.Z +
@@ -283,19 +280,27 @@ namespace FillingTriangleMesh
                     {
                         Color color = constantShadingColor;
                         if(shading == Shading.Phong)
-                            color = calculatePhongFillColor(new Point(i, y), lambertModel.objectColor, barycentric);
+                            color = calculatePhongFillColor(new Vertex(i, y, z), lambertModel.objectColor, barycentric);
                         else if(shading == Shading.Gouraud)
                             color = calculateGouraudFillColor(barycentric);
 
-                        unsafe
+                        int ii = i;
+                        int yy = y;
+                        if (cameraIndex == 1)
+                            (ii, yy) = moveCameraPosition(i, y);
+
+                        if (ii >= 0 && yy >= 0 && ii < pictureBox.Width && yy < pictureBox.Height)
                         {
-                            byte* ptr = (byte*)bitmap.Scan0;
-                            ptr[(i * 3) + y * bitmap.Stride] = color.B;
-                            ptr[(i * 3) + y * bitmap.Stride + 1] = color.G;
-                            ptr[(i * 3) + y * bitmap.Stride + 2] = color.R;
+                            unsafe
+                            {
+                                byte* ptr = (byte*)bitmap.Scan0;
+                                ptr[(ii * 3) + yy * bitmap.Stride] = color.B;
+                                ptr[(ii * 3) + yy * bitmap.Stride + 1] = color.G;
+                                ptr[(ii * 3) + yy * bitmap.Stride + 2] = color.R;
+                            }
+                            //bitmap.SetPixel(i, y, color);
+                            ZBuffer[i, y] = z;
                         }
-                        //bitmap.SetPixel(i, y, color);
-                        ZBuffer[i, y] =  z;
                     }
                 }
             }
@@ -309,15 +314,14 @@ namespace FillingTriangleMesh
         /// <returns>Calculated color in point with constant shading</returns>
         public void calculateConstantFillColor()
         {
-            Point point0 = new Point((int) currentTriangle.P0.X, (int) currentTriangle.P0.Y);
-            Point point1 = new Point((int) currentTriangle.P1.X, (int) currentTriangle.P1.Y);
-            Point point2 = new Point((int) currentTriangle.P2.X, (int) currentTriangle.P2.Y);
-            (double b0, double b1, double b2) barycentric0 = getBarycentricCoordinates(point0, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
-            (double b0, double b1, double b2) barycentric1 = getBarycentricCoordinates(point1, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
-            (double b0, double b1, double b2) barycentric2 = getBarycentricCoordinates(point2, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
+            Vertex point0 = currentTriangle.P0;
+            Vertex point1 = currentTriangle.P1;
+            Vertex point2 = currentTriangle.P2;
+
+            (double b0, double b1, double b2) barycentric0 = (1, 0, 0);
+            (double b0, double b1, double b2) barycentric1 = (0, 1, 0);
+            (double b0, double b1, double b2) barycentric2 = (0, 0, 1);
+
             var color0 = calculatePhongFillColor(point0, lambertModel.objectColor, barycentric0);
             var color1 = calculatePhongFillColor(point1, lambertModel.objectColor, barycentric1);
             var color2 = calculatePhongFillColor(point2, lambertModel.objectColor, barycentric2);
@@ -335,7 +339,7 @@ namespace FillingTriangleMesh
         /// <param name="point"></param>
         /// <param name="color"></param>
         /// <returns>Calculated color in point with Phong shading</returns>
-        public Color calculatePhongFillColor(Point point, Color color, (double b0, double b1, double b2) barycentric)
+        public Color calculatePhongFillColor(Vertex point, Color color, (double b0, double b1, double b2) barycentric)
         {
             double r = ((double)color.R / 255) * ((double)lambertModel.lightColor.R / 255);
             double g = ((double)color.G / 255) * ((double)lambertModel.lightColor.G / 255);
@@ -343,7 +347,7 @@ namespace FillingTriangleMesh
 
             Vector3 N = getNormalVector(barycentric);
             Vector3 L = Vector3.Normalize(new Vector3((float) lambertModel.lightPosition.x - point.X, (float) lambertModel.lightPosition.y - point.Y,
-                (float) lambertModel.lightPosition.z));
+                (float) lambertModel.lightPosition.z - point.Z));
 
             Vector3 RVector = 2 * Vector3.Dot(N, L) * N - L; 
 
@@ -351,12 +355,12 @@ namespace FillingTriangleMesh
             double cosmVR = Math.Pow(Math.Max(Vector3.Dot(lambertModel.V, RVector), 0), lambertModel.m);
 
             // Spotlight
-            double ISpotlight1 = getSpotlightIntensity(lambertModel.spotlight1Position, lambertModel.spotlight1D, point);
-            double ISpotlight2 = getSpotlightIntensity(lambertModel.spotlight2Position, lambertModel.spotlight2D, point);
+            var ISpotlight1 = getSpotlightIntensity(lambertModel.spotlight1Position, lambertModel.spotlight1D, point, N, color, r, g, b);
+            var ISpotlight2 = getSpotlightIntensity(lambertModel.spotlight2Position, lambertModel.spotlight2D, point, N, color, r, g, b);
 
-            double R = lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR + r * ISpotlight1 + r * ISpotlight2;
-            double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR + g * ISpotlight1 + g * ISpotlight2;
-            double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR + b * ISpotlight1 + b * ISpotlight2;
+            double R = lambertModel.kd * r * cosNL + lambertModel.ks * r * cosmVR + ISpotlight1.R + ISpotlight2.R;
+            double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR + ISpotlight1.G + ISpotlight2.G;
+            double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR + ISpotlight1.B + ISpotlight2.B;
 
             byte Rb = (byte)Math.Min(R * 255, 255);
             byte Gb = (byte)Math.Min(G * 255, 255);
@@ -365,13 +369,26 @@ namespace FillingTriangleMesh
             return Color.FromArgb(Rb, Gb, Bb);
         }
 
-        public double getSpotlightIntensity((double x, double y, double z) spotlightPosition, Vector3 D, Point point)
+        public (double R, double G, double B) getSpotlightIntensity((double x, double y, double z) spotlightPosition, 
+            Vector3 D, Vertex point, Vector3 N, Color color, double r, double g, double b)
         {
-            Vector3 LStaticSpotlight = Vector3.Normalize(new Vector3(
+            Vector3 lightDir = Vector3.Normalize(new Vector3(
                 (float)spotlightPosition.x - point.X,
                 (float)spotlightPosition.y - point.Y,
-                (float)spotlightPosition.z));
-            return Math.Pow(Math.Max(Vector3.Dot(-D, LStaticSpotlight), 0), lambertModel.m);
+                (float)spotlightPosition.z - point.Z));
+            float diff = Math.Max(Vector3.Dot(N, lightDir), 0);
+
+            Vector3 L = -lightDir;
+            Vector3 reflectDir = 2 * Vector3.Dot(N, L) * N - L;
+            float spec = (float)Math.Pow(Math.Max(Vector3.Dot(D, reflectDir), 0), lambertModel.m);
+
+            float distance = lightDir.Length();
+            float attenuation = (float)(1.0 / (0.5 + 0.5 * distance + 0.5 * (distance * distance)));
+
+            (double R, double G, double B) result = (diff * lambertModel.kd * r * attenuation + spec * lambertModel.ks * r * attenuation,
+                                                     diff * lambertModel.kd * g * attenuation + spec * lambertModel.ks * g * attenuation,
+                                                     diff * lambertModel.kd * b * attenuation + spec * lambertModel.ks * b * attenuation);
+            return result;
         }
 
         /// <summary>
@@ -395,15 +412,14 @@ namespace FillingTriangleMesh
 
         private void calculateColorInVertices()
         {
-            Point point0 = new Point((int)currentTriangle.P0.X, (int)currentTriangle.P0.Y);
-            Point point1 = new Point((int)currentTriangle.P1.X, (int)currentTriangle.P1.Y);
-            Point point2 = new Point((int)currentTriangle.P2.X, (int)currentTriangle.P2.Y);
-            (double b0, double b1, double b2) barycentric0 = getBarycentricCoordinates(point0, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
-            (double b0, double b1, double b2) barycentric1 = getBarycentricCoordinates(point1, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
-            (double b0, double b1, double b2) barycentric2 = getBarycentricCoordinates(point2, currentTriangle.P0,
-                        currentTriangle.P1, currentTriangle.P2);
+            Vertex point0 = currentTriangle.P0;
+            Vertex point1 = currentTriangle.P1;
+            Vertex point2 = currentTriangle.P2;
+
+            (double b0, double b1, double b2) barycentric0 = (1, 0, 0);
+            (double b0, double b1, double b2) barycentric1 = (0, 1, 0);
+            (double b0, double b1, double b2) barycentric2 = (0, 0, 1);
+
             gouraudVertex0Color = calculatePhongFillColor(point0, lambertModel.objectColor, barycentric0);
             gouraudVertex1Color = calculatePhongFillColor(point1, lambertModel.objectColor, barycentric1);
             gouraudVertex2Color = calculatePhongFillColor(point2, lambertModel.objectColor, barycentric2);
@@ -433,7 +449,7 @@ namespace FillingTriangleMesh
         /// <param name="p1">Triangle vertex</param>
         /// <param name="p2">triangle vertex</param>
         /// <returns>Barycentric coordinates for p in triangle 'p0-p1-p2'</returns>
-        private (double b0, double b1, double b2) getBarycentricCoordinates(Point p, Vertex p0, Vertex p1,
+        private (double b0, double b1, double b2) getBarycentricCoordinates(Vertex p, Vertex p0, Vertex p1,
             Vertex p2)
         {
             Vector2 v0 = new Vector2(p1.X - p0.X, p1.Y - p0.Y);
@@ -461,6 +477,7 @@ namespace FillingTriangleMesh
         /// Function transform vertex
         /// </summary>
         /// <param name="vertex"></param>
+        /// /// <param name="modelMatrix"></param>
         /// <returns>Transformed vertex</returns>
         private Vertex transfromVertex(Vertex vertex, Matrix4x4 modelMatrix)
         {
@@ -565,7 +582,7 @@ namespace FillingTriangleMesh
             }
 
             lambertModel.spotlight1Position = (resultTriangles[0].P0.X, resultTriangles[0].P0.Y, resultTriangles[0].P0.Z);
-           // lambertModel.spotlight2Position = (resultTriangles[0].P0.X, resultTriangles[0].P0.Y, resultTriangles[0].P0.Z);
+           
         }
 
 
@@ -573,11 +590,7 @@ namespace FillingTriangleMesh
         public void switchCameraType()
         {
             cameraIndex = (++cameraIndex) % 3;
-            if(cameraIndex == 1)
-            {
-                moveCameraPosition();
-            }
-            else if(cameraIndex == 2)
+            if(cameraIndex == 2)
             {
                 savedCameraTarget = new Vector3(0, 200, 0);
                 moveCameraTarget();
@@ -590,19 +603,13 @@ namespace FillingTriangleMesh
             transformStaticObjects();
         }
 
-        private void moveCameraPosition()
+        private (int i, int y) moveCameraPosition(int i, int y)
         {
             var p = resultTriangles[0].P0;
             var xShift = pictureBox.Width / 2 - p.X;
             var yShift = pictureBox.Height / 2 - p.Y;
 
-            for(int i = 0; i < resultTriangles.Count; ++i)
-            {
-                var t = resultTriangles[i];
-                resultTriangles[i] = new Triangle(new Vertex(t.P0.X + xShift, t.P0.Y + yShift, t.P0.Z),
-                                                  new Vertex(t.P1.X + xShift, t.P1.Y + yShift, t.P1.Z),
-                                                  new Vertex(t.P2.X + xShift, t.P2.Y + yShift, t.P2.Z));
-            }
+            return ((int) (i + xShift), (int) (y + yShift));
         }
 
         private Vector3 savedCameraTarget;
