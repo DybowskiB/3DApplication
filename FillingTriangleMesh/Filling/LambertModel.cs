@@ -22,6 +22,7 @@ namespace FillingTriangleMesh
 
         public (double x, double y, double z) lightPosition = (1000, 50, 800);
 
+
         // Spotlights
 
         public int directionIndex { get; set; } = 0;
@@ -38,6 +39,10 @@ namespace FillingTriangleMesh
 
         // Object color
         public Color objectColor { get; set; } = Color.LightGray;
+
+        // Fog
+
+        public Color fogColor { get; set; } = Color.DeepSkyBlue;
 
         // Create Lambert model
         public LambertModel(double kd, double ks, double m)

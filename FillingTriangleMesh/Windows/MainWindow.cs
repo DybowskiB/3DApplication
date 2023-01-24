@@ -257,5 +257,14 @@ namespace FillingTriangleMesh
             }
             redraw();
         }
+
+        private void fogCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (fogCheckBox.Checked)
+                filling.turnOnFog();
+            else
+                filling.turnOffFog();
+            redraw();
+        }
     }
 }

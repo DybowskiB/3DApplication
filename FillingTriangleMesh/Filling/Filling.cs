@@ -362,6 +362,15 @@ namespace FillingTriangleMesh
             double G = lambertModel.kd * g * cosNL + lambertModel.ks * g * cosmVR + ISpotlight1.G + ISpotlight2.G;
             double B = lambertModel.kd * b * cosNL + lambertModel.ks * b * cosmVR + ISpotlight1.B + ISpotlight2.B;
 
+            if(fog)
+            {
+                var position = new Vector3(point.X, point.Y, point.Z);
+                var factor = calculateFogFactor((cameraPosition - position).Length());
+                R = factor * R + (double)(lambertModel.fogColor.R / 255) * (1 - factor);
+                G = factor * G + (double)(lambertModel.fogColor.G / 255) * (1 - factor);
+                B = factor * B + (double)(lambertModel.fogColor.B / 255) * (1 - factor);
+            }
+
             byte Rb = (byte)Math.Min(R * 255, 255);
             byte Gb = (byte)Math.Min(G * 255, 255);
             byte Bb = (byte)Math.Min(B * 255, 255);
@@ -389,6 +398,16 @@ namespace FillingTriangleMesh
                                                      diff * lambertModel.kd * g * attenuation + spec * lambertModel.ks * g * attenuation,
                                                      diff * lambertModel.kd * b * attenuation + spec * lambertModel.ks * b * attenuation);
             return result;
+        }
+
+        public float calculateFogFactor(float distance)
+        {
+            float fogIntensity = 75;
+            float gradient = (fogIntensity * fogIntensity - 50 * fogIntensity + 60);
+            float fog = (float)Math.Exp(-Math.Pow((distance / gradient), 4));
+            if (fog < 0) fog = 0;
+            if (fog > 1) fog = 1;
+            return fog;
         }
 
         /// <summary>
@@ -629,6 +648,19 @@ namespace FillingTriangleMesh
         public void turnOffVibrations()
         {
             animation.vibrations = false;
+        }
+
+        // Fog 
+
+        private bool fog = false;
+        public void turnOnFog()
+        {
+            this.fog = true;
+        }
+
+        public void turnOffFog()
+        {
+            this.fog = false;
         }
     }
 }

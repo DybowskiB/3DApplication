@@ -76,6 +76,11 @@ namespace FillingTriangleMesh
             this.vibrationCheckBox = new System.Windows.Forms.CheckBox();
             this.SpotlightGroupBox = new System.Windows.Forms.GroupBox();
             this.spotlightDirectionButton = new System.Windows.Forms.Button();
+            this.FogNightTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.fogCheckBox = new System.Windows.Forms.CheckBox();
+            this.nightGroupBox = new System.Windows.Forms.GroupBox();
+            this.nightCheckBox = new System.Windows.Forms.CheckBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.lightColorDialog = new System.Windows.Forms.ColorDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
@@ -113,6 +118,9 @@ namespace FillingTriangleMesh
             ((System.ComponentModel.ISupportInitialize)(this.FOVTrackBar)).BeginInit();
             this.vibrationGroupBox.SuspendLayout();
             this.SpotlightGroupBox.SuspendLayout();
+            this.FogNightTableLayoutPanel.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.nightGroupBox.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -130,6 +138,7 @@ namespace FillingTriangleMesh
             this.tableLayoutPanel.Controls.Add(this.cameraGroupBox, 0, 3);
             this.tableLayoutPanel.Controls.Add(this.vibrationGroupBox, 0, 4);
             this.tableLayoutPanel.Controls.Add(this.SpotlightGroupBox, 0, 5);
+            this.tableLayoutPanel.Controls.Add(this.FogNightTableLayoutPanel, 0, 6);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -137,10 +146,10 @@ namespace FillingTriangleMesh
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(1835, 853);
             this.tableLayoutPanel.TabIndex = 0;
@@ -153,7 +162,7 @@ namespace FillingTriangleMesh
             this.pictureBox.Location = new System.Drawing.Point(203, 3);
             this.pictureBox.Name = "pictureBox";
             this.tableLayoutPanel.SetRowSpan(this.pictureBox, 7);
-            this.pictureBox.Size = new System.Drawing.Size(1629, 801);
+            this.pictureBox.Size = new System.Drawing.Size(1629, 802);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
@@ -561,7 +570,7 @@ namespace FillingTriangleMesh
             this.cameraGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.cameraGroupBox.Location = new System.Drawing.Point(3, 505);
             this.cameraGroupBox.Name = "cameraGroupBox";
-            this.cameraGroupBox.Size = new System.Drawing.Size(194, 164);
+            this.cameraGroupBox.Size = new System.Drawing.Size(194, 156);
             this.cameraGroupBox.TabIndex = 3;
             this.cameraGroupBox.TabStop = false;
             this.cameraGroupBox.Text = "Camera";
@@ -578,7 +587,7 @@ namespace FillingTriangleMesh
             this.cameraTableLayoutPanel.RowCount = 2;
             this.cameraTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.cameraTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.cameraTableLayoutPanel.Size = new System.Drawing.Size(188, 135);
+            this.cameraTableLayoutPanel.Size = new System.Drawing.Size(188, 127);
             this.cameraTableLayoutPanel.TabIndex = 0;
             // 
             // cameraTypeGroupBox
@@ -586,9 +595,9 @@ namespace FillingTriangleMesh
             this.cameraTypeGroupBox.Controls.Add(this.switchCameraButton);
             this.cameraTypeGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cameraTypeGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cameraTypeGroupBox.Location = new System.Drawing.Point(3, 84);
+            this.cameraTypeGroupBox.Location = new System.Drawing.Point(3, 79);
             this.cameraTypeGroupBox.Name = "cameraTypeGroupBox";
-            this.cameraTypeGroupBox.Size = new System.Drawing.Size(182, 48);
+            this.cameraTypeGroupBox.Size = new System.Drawing.Size(182, 45);
             this.cameraTypeGroupBox.TabIndex = 2;
             this.cameraTypeGroupBox.TabStop = false;
             this.cameraTypeGroupBox.Text = "Camera type";
@@ -598,7 +607,7 @@ namespace FillingTriangleMesh
             this.switchCameraButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.switchCameraButton.Location = new System.Drawing.Point(3, 23);
             this.switchCameraButton.Name = "switchCameraButton";
-            this.switchCameraButton.Size = new System.Drawing.Size(176, 22);
+            this.switchCameraButton.Size = new System.Drawing.Size(176, 19);
             this.switchCameraButton.TabIndex = 0;
             this.switchCameraButton.Text = "Switch";
             this.switchCameraButton.UseVisualStyleBackColor = true;
@@ -611,7 +620,7 @@ namespace FillingTriangleMesh
             this.FOVGroupBox.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.FOVGroupBox.Location = new System.Drawing.Point(3, 3);
             this.FOVGroupBox.Name = "FOVGroupBox";
-            this.FOVGroupBox.Size = new System.Drawing.Size(182, 75);
+            this.FOVGroupBox.Size = new System.Drawing.Size(182, 70);
             this.FOVGroupBox.TabIndex = 0;
             this.FOVGroupBox.TabStop = false;
             this.FOVGroupBox.Text = "FOV";
@@ -630,7 +639,7 @@ namespace FillingTriangleMesh
             this.FOVTableLayout.RowCount = 2;
             this.FOVTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.FOVTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.FOVTableLayout.Size = new System.Drawing.Size(176, 49);
+            this.FOVTableLayout.Size = new System.Drawing.Size(176, 44);
             this.FOVTableLayout.TabIndex = 0;
             // 
             // FOVLabel
@@ -640,7 +649,7 @@ namespace FillingTriangleMesh
             this.FOVLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.FOVLabel.Location = new System.Drawing.Point(3, 0);
             this.FOVLabel.Name = "FOVLabel";
-            this.FOVLabel.Size = new System.Drawing.Size(82, 24);
+            this.FOVLabel.Size = new System.Drawing.Size(82, 22);
             this.FOVLabel.TabIndex = 0;
             this.FOVLabel.Text = "FOV:";
             this.FOVLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -652,7 +661,7 @@ namespace FillingTriangleMesh
             this.FOVValueLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.FOVValueLabel.Location = new System.Drawing.Point(91, 0);
             this.FOVValueLabel.Name = "FOVValueLabel";
-            this.FOVValueLabel.Size = new System.Drawing.Size(82, 24);
+            this.FOVValueLabel.Size = new System.Drawing.Size(82, 22);
             this.FOVValueLabel.TabIndex = 1;
             this.FOVValueLabel.Text = "75";
             this.FOVValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -661,11 +670,11 @@ namespace FillingTriangleMesh
             // 
             this.FOVTableLayout.SetColumnSpan(this.FOVTrackBar, 2);
             this.FOVTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FOVTrackBar.Location = new System.Drawing.Point(3, 27);
+            this.FOVTrackBar.Location = new System.Drawing.Point(3, 25);
             this.FOVTrackBar.Maximum = 120;
             this.FOVTrackBar.Minimum = 75;
             this.FOVTrackBar.Name = "FOVTrackBar";
-            this.FOVTrackBar.Size = new System.Drawing.Size(170, 19);
+            this.FOVTrackBar.Size = new System.Drawing.Size(170, 16);
             this.FOVTrackBar.TabIndex = 2;
             this.FOVTrackBar.Value = 75;
             this.FOVTrackBar.Scroll += new System.EventHandler(this.FOVTrackBar_Scroll);
@@ -674,7 +683,7 @@ namespace FillingTriangleMesh
             // 
             this.vibrationGroupBox.Controls.Add(this.vibrationCheckBox);
             this.vibrationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vibrationGroupBox.Location = new System.Drawing.Point(3, 675);
+            this.vibrationGroupBox.Location = new System.Drawing.Point(3, 667);
             this.vibrationGroupBox.Name = "vibrationGroupBox";
             this.vibrationGroupBox.Size = new System.Drawing.Size(194, 36);
             this.vibrationGroupBox.TabIndex = 5;
@@ -697,7 +706,7 @@ namespace FillingTriangleMesh
             // 
             this.SpotlightGroupBox.Controls.Add(this.spotlightDirectionButton);
             this.SpotlightGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SpotlightGroupBox.Location = new System.Drawing.Point(3, 717);
+            this.SpotlightGroupBox.Location = new System.Drawing.Point(3, 709);
             this.SpotlightGroupBox.Name = "SpotlightGroupBox";
             this.SpotlightGroupBox.Size = new System.Drawing.Size(194, 45);
             this.SpotlightGroupBox.TabIndex = 6;
@@ -714,6 +723,67 @@ namespace FillingTriangleMesh
             this.spotlightDirectionButton.Text = "Change direction";
             this.spotlightDirectionButton.UseVisualStyleBackColor = true;
             this.spotlightDirectionButton.Click += new System.EventHandler(this.spotlightDirectionButton_Click);
+            // 
+            // FogNightTableLayoutPanel
+            // 
+            this.FogNightTableLayoutPanel.ColumnCount = 2;
+            this.FogNightTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.FogNightTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.FogNightTableLayoutPanel.Controls.Add(this.groupBox3, 0, 0);
+            this.FogNightTableLayoutPanel.Controls.Add(this.nightGroupBox, 1, 0);
+            this.FogNightTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FogNightTableLayoutPanel.Location = new System.Drawing.Point(3, 760);
+            this.FogNightTableLayoutPanel.Name = "FogNightTableLayoutPanel";
+            this.FogNightTableLayoutPanel.RowCount = 1;
+            this.FogNightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.FogNightTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.FogNightTableLayoutPanel.Size = new System.Drawing.Size(194, 45);
+            this.FogNightTableLayoutPanel.TabIndex = 8;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.fogCheckBox);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(3, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(91, 39);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Fog";
+            // 
+            // fogCheckBox
+            // 
+            this.fogCheckBox.AutoSize = true;
+            this.fogCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fogCheckBox.Location = new System.Drawing.Point(3, 23);
+            this.fogCheckBox.Name = "fogCheckBox";
+            this.fogCheckBox.Size = new System.Drawing.Size(85, 13);
+            this.fogCheckBox.TabIndex = 0;
+            this.fogCheckBox.Text = "On/Off";
+            this.fogCheckBox.UseVisualStyleBackColor = true;
+            this.fogCheckBox.CheckedChanged += new System.EventHandler(this.fogCheckBox_CheckedChanged);
+            // 
+            // nightGroupBox
+            // 
+            this.nightGroupBox.Controls.Add(this.nightCheckBox);
+            this.nightGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nightGroupBox.Location = new System.Drawing.Point(100, 3);
+            this.nightGroupBox.Name = "nightGroupBox";
+            this.nightGroupBox.Size = new System.Drawing.Size(91, 39);
+            this.nightGroupBox.TabIndex = 9;
+            this.nightGroupBox.TabStop = false;
+            this.nightGroupBox.Text = "Night";
+            // 
+            // nightCheckBox
+            // 
+            this.nightCheckBox.AutoSize = true;
+            this.nightCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nightCheckBox.Location = new System.Drawing.Point(3, 23);
+            this.nightCheckBox.Name = "nightCheckBox";
+            this.nightCheckBox.Size = new System.Drawing.Size(85, 13);
+            this.nightCheckBox.TabIndex = 0;
+            this.nightCheckBox.Text = "On/Off";
+            this.nightCheckBox.UseVisualStyleBackColor = true;
             // 
             // colorDialog
             // 
@@ -862,6 +932,11 @@ namespace FillingTriangleMesh
             this.vibrationGroupBox.ResumeLayout(false);
             this.vibrationGroupBox.PerformLayout();
             this.SpotlightGroupBox.ResumeLayout(false);
+            this.FogNightTableLayoutPanel.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.nightGroupBox.ResumeLayout(false);
+            this.nightGroupBox.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -927,6 +1002,11 @@ namespace FillingTriangleMesh
         private System.Windows.Forms.CheckBox vibrationCheckBox;
         private System.Windows.Forms.GroupBox SpotlightGroupBox;
         private System.Windows.Forms.Button spotlightDirectionButton;
+        private System.Windows.Forms.TableLayoutPanel FogNightTableLayoutPanel;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox fogCheckBox;
+        private System.Windows.Forms.GroupBox nightGroupBox;
+        private System.Windows.Forms.CheckBox nightCheckBox;
     }
 }
 
