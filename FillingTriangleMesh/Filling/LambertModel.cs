@@ -30,7 +30,7 @@ namespace FillingTriangleMesh
         public (double x, double y, double z) spotlight1Position = (0, 0, 0);
         public Vector3 spotlight1D = new Vector3(0, 1, 0);
 
-        public (double x, double y, double z) spotlight2Position = (0, 800, 0);
+        public (double x, double y, double z) spotlight2Position = (200, 800, 500);
         public Vector3 spotlight2D = new Vector3(0, 1, 0);
 
         // V vector
